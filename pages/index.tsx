@@ -18,6 +18,10 @@ const Home: NextPage = () => {
     console.log('MetaMask is installed!');
   };
 
+  const connectWallet = () => {
+    window.ethereum.request({ method: 'eth_requestAccounts' });
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -29,6 +33,8 @@ const Home: NextPage = () => {
       <main className={styles.main}>
         <h1>The Inbox</h1>
         <h2>The current message is: ...</h2>
+
+        <button onClick={connectWallet}>Connect MetaMask wallet</button>
         
       </main>
 
