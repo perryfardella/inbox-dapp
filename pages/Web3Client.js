@@ -29,26 +29,42 @@ export const init = async () => {
 
   const web3 = new Web3(provider);
 
-  const networkId = await web3.eth.net.getId();
-
   const inboxAbi = [
     {
-      constant: true,
       inputs: [
         {
-          name: "_owner",
-          type: "address",
-        },
-      ],
-      name: "getMessage",
-      outputs: [
-        {
-          name: "message",
+          internalType: "string",
+          name: "initialMessage",
           type: "string",
         },
       ],
-      payable: false,
+      stateMutability: "nonpayable",
+      type: "constructor",
+    },
+    {
+      inputs: [],
+      name: "getMessage",
+      outputs: [
+        {
+          internalType: "string",
+          name: "",
+          type: "string",
+        },
+      ],
       stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "string",
+          name: "newMessage",
+          type: "string",
+        },
+      ],
+      name: "setMessage",
+      outputs: [],
+      stateMutability: "nonpayable",
       type: "function",
     },
   ];
@@ -59,6 +75,8 @@ export const init = async () => {
     "0x8d8671021Ea191Bf2523fEb915dd5fBC3f08b88a"
   );
 
+  inboxContract.defaultChain = "rinkeby";
+
   isInitialized = true;
 };
 
@@ -68,9 +86,22 @@ export const getMessage = async () => {
   }
 
   return inboxContract.methods
-    .getMessage(selectedAccount)
+    .getMessage()
     .call()
     .then((message) => {
-      console.log(message);
+      return message;
     });
+};
+
+export const setMessage = async () => {
+  if (!isInitialized) {
+    await init();
+  }
+
+  return inboxContract.methods
+    .setMessage("Perry Fardella changed this message!")
+    .call();
+  //   .then((message) => {
+  //     return message;
+  //   });
 };
