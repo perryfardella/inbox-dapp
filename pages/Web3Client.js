@@ -99,9 +99,21 @@ export const setMessage = async () => {
   }
 
   return inboxContract.methods
-    .setMessage("Perry Fardella changed this message!")
-    .call();
-  //   .then((message) => {
-  //     return message;
-  //   });
+    .setMessage("Perry Fardella changed this message, again!")
+    .send({ from: selectedAccount })
+    .on("transactionHash", function (hash) {
+      console.log(hash);
+    })
+    .on("confirmation", function (confirmationNumber, receipt) {
+      console.log(confirmationNumber);
+      console.log(receipt);
+    })
+    .on("receipt", function (receipt) {
+      console.log(receipt);
+    })
+    .on("error", function (error, receipt) {
+      // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
+      console.log(error);
+      console.log(receipt);
+    });
 };
