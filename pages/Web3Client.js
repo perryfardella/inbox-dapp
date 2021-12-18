@@ -99,7 +99,7 @@ export const setMessage = async () => {
   }
 
   return inboxContract.methods
-    .setMessage("Perry Fardella changed this message, again!")
+    .setMessage("Perry Fardella changed this message, again and again!")
     .send({ from: selectedAccount })
     .on("transactionHash", function (hash) {
       console.log(hash);
