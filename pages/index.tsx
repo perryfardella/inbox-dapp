@@ -1,9 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import { useEffect, useState } from "react";
-import Web3 from "web3";
+import { useState } from "react";
 import { getMessage } from "../web3Client/Web3Client";
 import { setMessage } from "../web3Client/Web3Client";
 
@@ -15,8 +13,6 @@ declare global {
     web3: any;
   }
 }
-
-let selectedAccount: any;
 
 const Home: NextPage = () => {
   const [message, setStateMessage] = useState("");
