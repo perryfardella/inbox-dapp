@@ -1,8 +1,9 @@
 import Web3 from "web3";
+import { AbiItem } from "web3-utils";
 
-let selectedAccount;
+let selectedAccount: any;
 
-let inboxContract;
+let inboxContract: any;
 
 let isInitialized = false;
 
@@ -12,16 +13,16 @@ export const init = async () => {
   if (typeof provider !== "undefined") {
     provider
       .request({ method: "eth_requestAccounts" })
-      .then((accounts) => {
+      .then((accounts: any) => {
         selectedAccount = accounts[0];
         console.log(`Selected account is ${selectedAccount}`);
       })
-      .catch((err) => {
+      .catch((err: any) => {
         console.log(err);
         return;
       });
 
-    window.ethereum.on("accountsChanged", function (accounts) {
+    window.ethereum.on("accountsChanged", function (accounts: any) {
       selectedAccount = accounts[0];
       console.log(`Selected account changed to ${selectedAccount}`);
     });
@@ -29,7 +30,7 @@ export const init = async () => {
 
   const web3 = new Web3(provider);
 
-  const inboxAbi = [
+  const inboxAbi: AbiItem[] = [
     {
       inputs: [
         {
@@ -88,30 +89,30 @@ export const getMessage = async () => {
   return inboxContract.methods
     .getMessage()
     .call()
-    .then((message) => {
+    .then((message: string) => {
       return message;
     });
 };
 
-export const setMessage = async () => {
+export const setMessage = async (message: string) => {
   if (!isInitialized) {
     await init();
   }
 
   return inboxContract.methods
-    .setMessage("Perry Fardella changed this message, again and again!")
+    .setMessage(message)
     .send({ from: selectedAccount })
-    .on("transactionHash", function (hash) {
+    .on("transactionHash", function (hash: string) {
       console.log(hash);
     })
-    .on("confirmation", function (confirmationNumber, receipt) {
+    .on("confirmation", function (confirmationNumber: any, receipt: any) {
       console.log(confirmationNumber);
       console.log(receipt);
     })
-    .on("receipt", function (receipt) {
+    .on("receipt", function (receipt: any) {
       console.log(receipt);
     })
-    .on("error", function (error, receipt) {
+    .on("error", function (error: any, receipt: any) {
       // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
       console.log(error);
       console.log(receipt);

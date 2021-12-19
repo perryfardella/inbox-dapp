@@ -16,6 +16,11 @@ declare global {
 
 const Home: NextPage = () => {
   const [message, setStateMessage] = useState("");
+  const [textInput, setTextInput] = useState("");
+
+  const handleInputUpdate = (input: string) => {
+    setTextInput(input);
+  };
 
   const fetchMessage = () => {
     getMessage()
@@ -27,12 +32,14 @@ const Home: NextPage = () => {
       });
   };
 
-  const postMessage = () => {
-    setMessage()
+  const postMessage = (updatedMessage: string) => {
+    setMessage(updatedMessage)
       .then(fetchMessage)
       .catch((err) => {
         console.log(err);
       });
+
+    setTextInput("");
   };
 
   return (
@@ -47,7 +54,12 @@ const Home: NextPage = () => {
         <h1>The Inbox</h1>
         <h2>The current message is: {message}</h2>
         <button onClick={() => fetchMessage()}>Get the message</button>
-        <button onClick={() => postMessage()}>Set the message</button>
+        <input
+          type="text"
+          value={textInput}
+          onChange={(event) => handleInputUpdate(event.target.value)}
+        ></input>
+        <button onClick={() => postMessage(textInput)}>Set the message</button>
       </main>
     </div>
   );
