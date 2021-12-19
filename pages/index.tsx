@@ -4,8 +4,8 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import { useEffect, useState } from "react";
 import Web3 from "web3";
-import { getMessage } from "./Web3Client";
-import { setMessage } from "./Web3Client";
+import { getMessage } from "../web3Client/Web3Client";
+import { setMessage } from "../web3Client/Web3Client";
 
 // Extend the global window interface to avoid a typescript error here
 // where ethereum can't be found in the browser
