@@ -2,10 +2,48 @@ import Web3 from "web3";
 import { AbiItem } from "web3-utils";
 
 let selectedAccount: any;
-
 let inboxContract: any;
-
 let isInitialized = false;
+
+const inboxAbi: AbiItem[] = [
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "initialMessage",
+        type: "string",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
+    inputs: [],
+    name: "getMessage",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "newMessage",
+        type: "string",
+      },
+    ],
+    name: "setMessage",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+];
 
 export const init = async () => {
   let provider = window.ethereum;
@@ -29,46 +67,6 @@ export const init = async () => {
   }
 
   const web3 = new Web3(provider);
-
-  const inboxAbi: AbiItem[] = [
-    {
-      inputs: [
-        {
-          internalType: "string",
-          name: "initialMessage",
-          type: "string",
-        },
-      ],
-      stateMutability: "nonpayable",
-      type: "constructor",
-    },
-    {
-      inputs: [],
-      name: "getMessage",
-      outputs: [
-        {
-          internalType: "string",
-          name: "",
-          type: "string",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "string",
-          name: "newMessage",
-          type: "string",
-        },
-      ],
-      name: "setMessage",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-  ];
 
   inboxContract = new web3.eth.Contract(
     inboxAbi,
