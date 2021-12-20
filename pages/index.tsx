@@ -54,6 +54,7 @@ const Home: NextPage = () => {
         <h1>The Inbox</h1>
         <h2>The current message is: {message}</h2>
         <button onClick={() => fetchMessage()}>Get the message</button>
+        <br/>
         <input
           type="text"
           value={textInput}
