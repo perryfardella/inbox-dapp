@@ -2,8 +2,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import { useState } from "react";
-import { getMessage } from "../web3Client/Web3Client";
-import { setMessage } from "../web3Client/Web3Client";
+import { getMessage, setMessage } from "../web3Client/Web3Client";
 
 // Extend the global window interface to avoid a typescript error here
 // where ethereum can't be found in the browser
