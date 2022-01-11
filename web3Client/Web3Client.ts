@@ -1,9 +1,10 @@
 import Web3 from "web3";
 import { AbiItem } from "web3-utils";
+import { Contract } from "web3-eth-contract";
 
-let selectedAccount: any;
-let inboxContract: any;
-let isInitialized = false;
+let selectedAccount: string;
+let inboxContract: Contract;
+let isConnected = false;
 
 const inboxAbi: AbiItem[] = [
   {
@@ -45,13 +46,13 @@ const inboxAbi: AbiItem[] = [
   },
 ];
 
-export const init = async () => {
+const connect = async () => {
   let provider = window.ethereum;
 
   if (typeof provider !== "undefined") {
     provider
       .request({ method: "eth_requestAccounts" })
-      .then((accounts: any) => {
+      .then((accounts: string[]) => {
         selectedAccount = accounts[0];
         console.log(`Selected account is ${selectedAccount}`);
       })
@@ -60,7 +61,7 @@ export const init = async () => {
         return;
       });
 
-    window.ethereum.on("accountsChanged", function (accounts: any) {
+    window.ethereum.on("accountsChanged", function (accounts: string[]) {
       selectedAccount = accounts[0];
       console.log(`Selected account changed to ${selectedAccount}`);
     });
@@ -76,12 +77,12 @@ export const init = async () => {
 
   inboxContract.defaultChain = "rinkeby";
 
-  isInitialized = true;
+  isConnected = true;
 };
 
 export const getMessage = async () => {
-  if (!isInitialized) {
-    await init();
+  if (!isConnected) {
+    await connect();
   }
 
   return inboxContract.methods
@@ -93,8 +94,8 @@ export const getMessage = async () => {
 };
 
 export const setMessage = async (message: string) => {
-  if (!isInitialized) {
-    await init();
+  if (!isConnected) {
+    await connect();
   }
 
   return inboxContract.methods
@@ -103,8 +104,8 @@ export const setMessage = async (message: string) => {
     .on("transactionHash", function (hash: string) {
       console.log(hash);
     })
-    .on("confirmation", function (confirmationNumber: any, receipt: any) {
-      console.log(confirmationNumber);
+    .on("confirmation", function (confirmationNumber: number, receipt: any) {
+      console.log('confirmation number: ' + confirmationNumber);
       console.log(receipt);
     })
     .on("receipt", function (receipt: any) {
