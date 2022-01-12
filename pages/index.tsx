@@ -14,13 +14,16 @@ declare global {
 }
 
 const Home: NextPage = () => {
+  // React hooks to store data in state
   const [message, setStateMessage] = useState("");
   const [textInput, setTextInput] = useState("");
 
+  // Function to handle the 
   const handleInputUpdate = (input: string) => {
     setTextInput(input);
   };
 
+  // Function that calls the getMessage method from our client
   const fetchMessage = () => {
     getMessage()
       .then((message) => {
@@ -31,6 +34,7 @@ const Home: NextPage = () => {
       });
   };
 
+  // Function that calls the setMessage method from our client
   const postMessage = (updatedMessage: string) => {
     setMessage(updatedMessage)
       .then(fetchMessage)
