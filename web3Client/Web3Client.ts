@@ -1,11 +1,16 @@
+// Import the web3 library we'll be using
 import Web3 from "web3";
+
+// Import web3 data types we'll be using
 import { AbiItem } from "web3-utils";
 import { Contract } from "web3-eth-contract";
 
+// Declare global client variables
 let selectedAccount: string;
 let inboxContract: Contract;
 let isConnected = false;
 
+// Declare the ABI of the Inbox smart contract
 const inboxAbi: AbiItem[] = [
   {
     inputs: [
@@ -46,6 +51,7 @@ const inboxAbi: AbiItem[] = [
   },
 ];
 
+// Connect method for handling connection with the users wallet and the smart contract
 const connect = async () => {
   let provider = window.ethereum;
 
@@ -71,7 +77,7 @@ const connect = async () => {
 
   inboxContract = new web3.eth.Contract(
     inboxAbi,
-    // Inbox contract on Rinkeby
+    // Inbox contract address on Rinkeby network
     "0x8d8671021Ea191Bf2523fEb915dd5fBC3f08b88a"
   );
 
@@ -80,6 +86,7 @@ const connect = async () => {
   isConnected = true;
 };
 
+// Method for calling the getMessage method on the smart contract
 export const getMessage = async () => {
   if (!isConnected) {
     await connect();
@@ -93,6 +100,7 @@ export const getMessage = async () => {
     });
 };
 
+// Method for calling the setMessage method on the smart contract
 export const setMessage = async (message: string) => {
   if (!isConnected) {
     await connect();

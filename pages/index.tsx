@@ -18,7 +18,7 @@ const Home: NextPage = () => {
   const [message, setStateMessage] = useState("");
   const [textInput, setTextInput] = useState("");
 
-  // Function to handle the 
+  // Function to handle the updating of inputs in the input field
   const handleInputUpdate = (input: string) => {
     setTextInput(input);
   };
