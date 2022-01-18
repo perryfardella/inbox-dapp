@@ -51,7 +51,7 @@ const inboxAbi: AbiItem[] = [
   },
 ];
 
-// Connect method for handling connection with the users wallet and the smart contract
+// Connect function for handling connection with the users wallet and the smart contract
 const connect = async () => {
   let provider = window.ethereum;
 
@@ -77,7 +77,7 @@ const connect = async () => {
 
   inboxContract = new web3.eth.Contract(
     inboxAbi,
-    // Inbox contract address on Rinkeby network
+    // Inbox contract address on the Rinkeby network
     "0x8d8671021Ea191Bf2523fEb915dd5fBC3f08b88a"
   );
 
@@ -86,7 +86,7 @@ const connect = async () => {
   isConnected = true;
 };
 
-// Method for calling the getMessage method on the smart contract
+// Function for calling the getMessage method on the smart contract
 export const getMessage = async () => {
   if (!isConnected) {
     await connect();
@@ -100,7 +100,7 @@ export const getMessage = async () => {
     });
 };
 
-// Method for calling the setMessage method on the smart contract
+// Function for calling the setMessage method on the smart contract
 export const setMessage = async (message: string) => {
   if (!isConnected) {
     await connect();
